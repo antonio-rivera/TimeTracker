@@ -4,11 +4,11 @@ namespace TimeTracker.Models
     public class WorkItem
     {
         public string Name { get; set; }
-        public Project AssignedTo { get; set; }
-        public WorkItem(string name, Project assignedTo)
+        public Project Project { get; set; }
+        public WorkItem(string name, Project project)
         {
             Name = name;
-            AssignedTo = assignedTo;
+            Project = project;
         }
     }
 }
