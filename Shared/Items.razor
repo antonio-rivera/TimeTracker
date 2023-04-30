@@ -1,0 +1,38 @@
+﻿@using TimeTracker.Models
+@using System.Diagnostics.CodeAnalysis
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Project</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (WorkItems is not null)
+        {
+            @foreach (var item in WorkItems)
+            {
+                if (RowTemplate is not null)
+                {
+                    <tr>
+                        @RowTemplate(item)
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+
+@code {
+
+    [Parameter]
+    public RenderFragment<WorkItem>? RowTemplate { get; set; }
+    [Parameter, AllowNull]
+    public List<WorkItem> WorkItems { get; set; }
+
+}
+

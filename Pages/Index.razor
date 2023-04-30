@@ -1,6 +1,18 @@
-﻿@page "/"
+﻿@using TimeTracker.Models
+@page "/"
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<Items>
+    <RowTemplate Context="wItem">
+        <td>@wItem.Name</td>
+        <td>@wItem.Project.Name</td>
+        <td>@wItem.Project.Time</td>
+    </RowTemplate>
+</Items>
 
+@code {
+
+    public List<WorkItem> WorkItems = new List<WorkItem>();
+    public List<Project> Projects = new List<Project>();
+
+}
