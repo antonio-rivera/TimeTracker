@@ -1,15 +1,13 @@
 ﻿@using TimeTracker.Models
 @page "/"
 
+<div class="card text-center">
+    <h2>Work Items</h2>
+    <Items WorkItems="WorkItems" />
 
-<Items WorkItems="WorkItems">
-    <RowTemplate Context="wItem">
-        <td contenteditable="true">@wItem.Name</td>
-        <td contenteditable="true">@wItem.Project.Name</td>
-        <td contenteditable="true">@wItem.Project.Time</td>
-    </RowTemplate>
-</Items>
-<button @onclick="AddItem" class="btn btn-success">Add</button>
+
+    <button @onclick="AddItem" class="btn btn-success mx-auto w-25">Add</button>
+</div>
 
 @code {
 
