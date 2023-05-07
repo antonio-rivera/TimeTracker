@@ -6,7 +6,7 @@
     <Items WorkItems="WorkItems" />
 
 
-    <button @onclick="AddItem" class="btn btn-success mx-auto w-25">Add</button>
+    <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
 </div>
 
 @code {
@@ -18,6 +18,11 @@
     {
         WorkItem item = new WorkItem("", new Project(0m, ""));
         WorkItems.Add(item);
+    }
+
+    public bool DeleteItem()
+    {
+
     }
 
 }
