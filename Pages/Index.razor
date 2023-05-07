@@ -2,17 +2,24 @@
 @page "/"
 
 
-<Items>
+<Items WorkItems="WorkItems">
     <RowTemplate Context="wItem">
-        <td>@wItem.Name</td>
-        <td>@wItem.Project.Name</td>
-        <td>@wItem.Project.Time</td>
+        <td contenteditable="true">@wItem.Name</td>
+        <td contenteditable="true">@wItem.Project.Name</td>
+        <td contenteditable="true">@wItem.Project.Time</td>
     </RowTemplate>
 </Items>
+<button @onclick="AddItem" class="btn btn-success">Add</button>
 
 @code {
 
     public List<WorkItem> WorkItems = new List<WorkItem>();
     public List<Project> Projects = new List<Project>();
+
+    public void AddItem()
+    {
+        WorkItem item = new WorkItem("", new Project(0m, ""));
+        WorkItems.Add(item);
+    }
 
 }
