@@ -1,12 +1,12 @@
 ﻿@using TimeTracker.Models
 @using System.Diagnostics.CodeAnalysis
 
-<table class="table">
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Project</th>
-            <th>Time</th>
+            <th class="w-25">Name</th>
+            <th class="w-25">Project</th>
+            <th class="w-25">Time</th>
         </tr>
     </thead>
     <tbody>
@@ -14,12 +14,12 @@
         {
             @foreach (var item in WorkItems)
             {
-                if (RowTemplate is not null)
-                {
-                    <tr>
-                        @RowTemplate(item)
-                    </tr>
-                }
+                <tr>
+                    <td><input @bind-value="@item.Name" /></td>
+                    <td><input @bind-value="@item.Project.Name" /></td>
+                    <td><input @bind-value="@item.Project.Time" /></td>
+                </tr>
+
             }
         }
     </tbody>
@@ -29,8 +29,6 @@
 
 @code {
 
-    [Parameter]
-    public RenderFragment<WorkItem>? RowTemplate { get; set; }
     [Parameter, AllowNull]
     public List<WorkItem> WorkItems { get; set; }
 
