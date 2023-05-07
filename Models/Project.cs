@@ -1,7 +1,7 @@
 ﻿using System;
 namespace TimeTracker.Models
 {
-    public struct Project
+    public class Project
     {
         public decimal Time { get; set; }
         public string Name { get; set; }
