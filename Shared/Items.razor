@@ -18,7 +18,7 @@
                     <td><input class="form-control text-center" @bind-value="@item.Name" /></td>
                     <td><input class="form-control text-center" @bind-value="@item.Project.Name" /></td>
                     <td><input class="form-control text-center" @bind-value="@item.Project.Time" /></td>
-                    <td><button @onclick="DeleteItem" class="btn btn-danger">Delete</button></td>
+                    <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
                 </tr>
             }
         }
@@ -33,7 +33,7 @@
     public List<WorkItem> WorkItems { get; set; }
 
     [Parameter]
-    public EventCallback<bool> DeleteItem { get; set; }
+    public EventCallback<Guid> OnDeleteItem { get; set; }
 
 }
 

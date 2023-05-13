@@ -3,7 +3,7 @@
 
 <div class="card text-center">
     <h2>Work Items</h2>
-    <Items WorkItems="WorkItems" />
+    <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" />
 
 
     <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
@@ -20,9 +20,16 @@
         WorkItems.Add(item);
     }
 
-    public bool DeleteItem()
+    public async Task<bool> DeleteItem(Guid id)
     {
+        int delIndex = WorkItems.FindIndex(item => item.Id == id);
+        if (delIndex >= 0)
+        {
+            WorkItems.RemoveAt(delIndex);
+            return true;
+        }
 
+        return false;
     }
 
 }
