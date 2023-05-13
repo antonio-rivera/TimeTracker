@@ -1,0 +1,35 @@
+﻿@using TimeTracker.Models
+@using System.Diagnostics.CodeAnalysis
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="w-50">Project</th>
+            <th class="w-50">Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Projects is not null)
+        {
+            @foreach (var project in Projects)
+            {
+                <tr>
+                    <td>@project.Name</td>
+                    <td>@project.Time</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+
+@code {
+
+    // Add dropdown to Timecard to choose project based on the project names already present in work items table
+    // Pass work items here
+    [Parameter, AllowNull]
+    public List<Project> Projects { get; set; }
+
+}
+
