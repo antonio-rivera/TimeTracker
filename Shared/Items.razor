@@ -14,10 +14,10 @@
         {
             @foreach (var item in WorkItems)
             {
-                <tr>
-                    <td><input class="form-control text-center" @bind-value="@item.Name" /></td>
-                    <td><input class="form-control text-center" @bind-value="@item.Project.Name" /></td>
-                    <td><input class="form-control text-center" @bind-value="@item.Project.Time" /></td>
+                <tr class="align-middle">
+                    <td><textarea class="form-control text-center" @bind="@item.Name" /></td>
+                    <td><textarea class="form-control text-center" @bind="@item.Project.Name" /></td>
+                    <td><textarea @onchange="@(async () => await OnUpdateProjectTime.InvokeAsync(item.Project))" class="form-control text-center" /></td>
                     <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
                 </tr>
             }
@@ -29,11 +29,17 @@
 
 @code {
 
+
     [Parameter, AllowNull]
     public List<WorkItem> WorkItems { get; set; }
 
     [Parameter]
     public EventCallback<Guid> OnDeleteItem { get; set; }
+
+    [Parameter]
+    public EventCallback<Project> OnUpdateProjectTime { get; set; }
+
+    //public EventCallback<Project> OnUpdateProjectName { get; set; }
 
 }
 

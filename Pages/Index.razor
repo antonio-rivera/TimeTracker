@@ -1,24 +1,43 @@
 ﻿@using TimeTracker.Models
 @page "/"
 
-<div class="card text-center">
-    <h2>Work Items</h2>
-    <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" />
 
+<div class="container-fluid">
+    <div class="row">
 
-    <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
+        <div class="col card text-center">
+            <h2>Work Items</h2>
+            <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" OnUpdateProjectTime="@UpdateProjectTime" />
+            <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
+        </div>
+
+        <div class="col card text-center">
+            <h2>Timecard</h2>
+            <TimeCard Projects="Projects" />
+            <button @onclick="AddProject" class="btn btn-success mx-auto w-25 mb-3">Add</button>
+        </div>
+    </div>
 </div>
 
 @code {
 
     public List<WorkItem> WorkItems = new List<WorkItem>();
     public List<Project> Projects = new List<Project>();
+    //public Dictionary<Guid, Guid> ItemToProject = new Dictionary<Guid, Guid>();
 
     public void AddItem()
     {
         WorkItem item = new WorkItem("", new Project(0m, ""));
         WorkItems.Add(item);
     }
+
+    public void AddProject()
+    {
+        Project project = new Project(0m, "");
+        Projects.Add(project);
+    }
+
+
 
     public async Task<bool> DeleteItem(Guid id)
     {
@@ -30,6 +49,48 @@
         }
 
         return false;
+
     }
+
+    public async Task UpdateProjectTime(Project updatedProject)
+    {
+        var (time, projectName) = updatedProject;
+
+        // Item list update
+        int itemIdx = WorkItems.FindIndex(item => item.Project.Id == updatedProject.Id);
+        if (itemIdx != -1)
+        {
+            WorkItems[itemIdx].Project.Time = time;
+        }
+
+
+        int ProjectToUpdateIdx = Projects.FindIndex(project => project.Name == projectName);
+        if (ProjectToUpdateIdx != -1)
+        {
+            var itemsUnderThisProject = WorkItems.Where(project => project.Name == projectName);
+            decimal totalTime = itemsUnderThisProject.Sum(item => item.Project.Time);
+            Projects[ProjectToUpdateIdx].Time = totalTime;
+        }
+
+    }
+
+    //public async Task UpdateProjectName(Project updatedProject)
+    //{
+    //    var (time, projectName) = updatedProject;
+
+    //    if (Projects.Count == 0)
+    //    {
+    //        Project newProject = new Project(time, projectName);
+    //        ItemToProject[updatedProject.Id] = newProject.Id; // Establish connection between work item project and timecard project
+    //        Projects.Add(newProject);
+
+    //    }
+
+    //    Guid TimecardProjectId = ItemToProject[updatedProject.Id];
+
+    //    int ProjectToUpdateIdx = Projects.FindIndex(project => project.Id == TimecardProjectId);
+    //    Projects[ProjectToUpdateIdx].Name = projectName;
+
+    //}
 
 }
