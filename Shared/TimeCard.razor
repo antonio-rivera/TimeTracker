@@ -15,9 +15,22 @@
             {
                 <tr>
                     <td>
-                        @if (PNames != default)
+                        @if (WorkItems != default)
                         {
-                            <RadzenDropDown @bind-Value="@defaultVal" Data=@PNames />
+                            <select class="form-select">
+                                <option selected>Choose project</option>
+                                @foreach (var item in WorkItems)
+                                {
+                                    @if (!string.IsNullOrEmpty(item.Project.Name))
+                                    {
+
+                                        <option id="@item.Id" value="@item.Project.Name">@item.Project.Name</option>
+                                    }
+                                }
+                                @*<option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>*@
+                            </select>
                         }
                     </td>
                     <td>@project.Time</td>
@@ -37,9 +50,7 @@
     public List<Project> Projects { get; set; }
 
     [Parameter, AllowNull]
-    public IEnumerable<string> PNames { get; set; }
-
-    string defaultVal = "";
+    public List<WorkItem> WorkItems { get; set; }
 
 
 

@@ -16,7 +16,7 @@
             {
                 <tr class="align-middle">
                     <td><textarea class="form-control text-center" @bind="@item.Name" /></td>
-                    <td><textarea class="form-control text-center" @bind="@item.Project.Name" /></td>
+                    <td><textarea @onchange="@(async () => await OnUpdateProjectName.InvokeAsync(item.Project))" /></td>
                     <td><textarea @onchange="@(async () => await OnUpdateProjectTime.InvokeAsync(item.Project))" class="form-control text-center" /></td>
                     <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
                 </tr>
@@ -38,8 +38,8 @@
 
     [Parameter]
     public EventCallback<Project> OnUpdateProjectTime { get; set; }
-
-    //public EventCallback<Project> OnUpdateProjectName { get; set; }
+    [Parameter]
+    public EventCallback<Project> OnUpdateProjectName { get; set; }
 
 }
 

@@ -7,13 +7,13 @@
 
         <div class="col card text-center">
             <h2>Work Items</h2>
-            <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" OnUpdateProjectTime="@UpdateProjectTime" />
+            <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" OnUpdateProjectTime="@UpdateProjectTime" OnUpdateProjectName="UpdateProjectName" />
             <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
         </div>
 
         <div class="col card text-center">
             <h2>Timecard</h2>
-            <TimeCard Projects="Projects" PNames="@WorkItems.Select((item, index) => string.IsNullOrEmpty(item.Name) ? $"Unnamed Project {index}" : item.Name )" />
+            <TimeCard Projects="Projects" WorkItems="@WorkItems" />
             <button @onclick="AddProject" class="btn btn-success mx-auto w-25 mb-3">Add</button>
         </div>
     </div>
@@ -74,23 +74,17 @@
 
     }
 
-    //public async Task UpdateProjectName(Project updatedProject)
-    //{
-    //    var (time, projectName) = updatedProject;
+    public async Task UpdateProjectName(Project updatedProject)
+    {
+        var (time, projectName) = updatedProject;
 
-    //    if (Projects.Count == 0)
-    //    {
-    //        Project newProject = new Project(time, projectName);
-    //        ItemToProject[updatedProject.Id] = newProject.Id; // Establish connection between work item project and timecard project
-    //        Projects.Add(newProject);
+        // Item list update
+        int itemIdx = WorkItems.FindIndex(item => item.Project.Id == updatedProject.Id);
+        if (itemIdx != -1)
+        {
+            WorkItems[itemIdx].Project.Name = projectName;
+        }
 
-    //    }
-
-    //    Guid TimecardProjectId = ItemToProject[updatedProject.Id];
-
-    //    int ProjectToUpdateIdx = Projects.FindIndex(project => project.Id == TimecardProjectId);
-    //    Projects[ProjectToUpdateIdx].Name = projectName;
-
-    //}
+    }
 
 }
