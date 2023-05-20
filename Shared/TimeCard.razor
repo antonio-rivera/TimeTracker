@@ -14,7 +14,12 @@
             @foreach (var project in Projects)
             {
                 <tr>
-                    <td>@project.Name</td>
+                    <td>
+                        @if (PNames != default)
+                        {
+                            <RadzenDropDown @bind-Value="@defaultVal" Data=@PNames />
+                        }
+                    </td>
                     <td>@project.Time</td>
                 </tr>
             }
@@ -30,6 +35,16 @@
     // Pass work items here
     [Parameter, AllowNull]
     public List<Project> Projects { get; set; }
+
+    [Parameter, AllowNull]
+    public IEnumerable<string> PNames { get; set; }
+
+    string defaultVal = "";
+
+
+
+
+
 
 }
 

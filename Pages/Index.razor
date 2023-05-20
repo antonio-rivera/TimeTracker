@@ -13,7 +13,7 @@
 
         <div class="col card text-center">
             <h2>Timecard</h2>
-            <TimeCard Projects="Projects" />
+            <TimeCard Projects="Projects" PNames="@WorkItems.Select((item, index) => string.IsNullOrEmpty(item.Name) ? $"Unnamed Project {index}" : item.Name )" />
             <button @onclick="AddProject" class="btn btn-success mx-auto w-25 mb-3">Add</button>
         </div>
     </div>
