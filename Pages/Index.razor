@@ -56,35 +56,27 @@
     {
         var (time, projectName) = updatedProject;
 
-        // Item list update
-        int itemIdx = WorkItems.FindIndex(item => item.Project.Id == updatedProject.Id);
-        if (itemIdx != -1)
-        {
-            WorkItems[itemIdx].Project.Time = time;
-        }
 
-
-        int ProjectToUpdateIdx = Projects.FindIndex(project => project.Name == projectName);
-        if (ProjectToUpdateIdx != -1)
+        if (!string.IsNullOrEmpty(projectName))
         {
-            var itemsUnderThisProject = WorkItems.Where(project => project.Name == projectName);
-            decimal totalTime = itemsUnderThisProject.Sum(item => item.Project.Time);
-            Projects[ProjectToUpdateIdx].Time = totalTime;
+            int ProjectToUpdateIdx = Projects.FindIndex(project => project.Name == projectName);
+            if (ProjectToUpdateIdx != -1)
+            {
+                var itemsUnderThisProject = WorkItems.Where(item => item.Project.Name == projectName);
+                decimal totalTime = itemsUnderThisProject.Sum(item => item.Project.Time);
+                Projects[ProjectToUpdateIdx].Time = totalTime;
+            }
+
         }
 
     }
 
-    public async Task UpdateProjectName(Project updatedProject)
+    public async Task UpdateProjectName()
     {
-        var (time, projectName) = updatedProject;
-
-        // Item list update
-        int itemIdx = WorkItems.FindIndex(item => item.Project.Id == updatedProject.Id);
-        if (itemIdx != -1)
-        {
-            WorkItems[itemIdx].Project.Name = projectName;
-        }
+        //This method just signals the parent to refresh
+        //When parent refreshes, TimeCard component refreshes and dropdown items become visible.
 
     }
+
 
 }
