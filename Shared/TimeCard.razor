@@ -17,19 +17,17 @@
                     <td>
                         @if (WorkItems != default)
                         {
-                            <select class="form-select">
+                            <select @onchange="(e) => SelectProject(e, project)" class="form-select">
                                 <option selected>Choose project</option>
-                                @foreach (var item in WorkItems)
+                                @foreach (var item in WorkItems.DistinctBy(item => item.Project.Name))
                                 {
                                     @if (!string.IsNullOrEmpty(item.Project.Name))
                                     {
 
-                                        <option id="@item.Id" value="@item.Project.Name">@item.Project.Name</option>
+                                        <option value="@item.Project.Name">@item.Project.Name</option>
                                     }
                                 }
-                                @*<option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>*@
+
                             </select>
                         }
                     </td>
@@ -54,7 +52,10 @@
 
 
 
-
+    void SelectProject(ChangeEventArgs e, Project project)
+    {
+        project.Name = (string)e.Value;
+    }
 
 
 }
