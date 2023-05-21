@@ -17,14 +17,14 @@
                     <td>
                         @if (WorkItems != default)
                         {
-                            <select @onchange="(e) => SelectProject(e, project)" class="form-select">
-                                <option selected>Choose project</option>
+                            <select value=@project.Name @onchange="(e => SelectProject(e, project))" class="form-select">
+
                                 @foreach (var item in WorkItems.DistinctBy(item => item.Project.Name))
                                 {
                                     @if (!string.IsNullOrEmpty(item.Project.Name))
                                     {
 
-                                        <option value="@item.Project.Name">@item.Project.Name</option>
+                                        <option>@item.Project.Name</option>
                                     }
                                 }
 
@@ -32,6 +32,7 @@
                         }
                     </td>
                     <td>@project.Time</td>
+                    <td><button @onclick="@(async () => await OnDeleteProject.InvokeAsync(project.Id))" class="btn btn-danger">Delete</button></td>
                 </tr>
             }
         }
@@ -50,13 +51,20 @@
     [Parameter, AllowNull]
     public List<WorkItem> WorkItems { get; set; }
 
+    [Parameter]
+    public EventCallback<Guid> OnDeleteProject { get; set; }
 
+    [Parameter]
+    public EventCallback<Project> GetTime { get; set; }
 
-    void SelectProject(ChangeEventArgs e, Project project)
+    async void SelectProject(ChangeEventArgs e, Project project)
     {
-        project.Name = (string)e.Value;
+        if (!string.IsNullOrEmpty((string?)e.Value))
+        {
+            project.Name = (string)e.Value;
+        }
+
+        await GetTime.InvokeAsync(project);
     }
-
-
 }
 
