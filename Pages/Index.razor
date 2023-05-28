@@ -23,6 +23,17 @@
 
     public List<WorkItem> WorkItems = new List<WorkItem>();
     public List<Project> Projects = new List<Project>();
+    public decimal TotalTimeItems = 0;
+    public decimal TotalTimeProjects = 0;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (WorkItems.Count > 0 && Projects.Count > 0)
+        {
+            TotalTimeItems = WorkItems.Sum(item => item.Project.Time);
+            TotalTimeProjects = Projects.Sum(project => project.Time);
+        }
+    }
 
     public void AddItem()
     {
