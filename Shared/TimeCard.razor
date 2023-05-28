@@ -18,7 +18,7 @@
                         @if (WorkItems != default)
                         {
                             <select value=@project.Name @onchange="(e => SelectProject(e, project))" class="form-select">
-
+                                <option selected>None</option>
                                 @foreach (var item in WorkItems.DistinctBy(item => item.Project.Name))
                                 {
                                     @if (!string.IsNullOrEmpty(item.Project.Name))
