@@ -1,0 +1,25 @@
+﻿<div class="container-fluid">
+    <div class="row justify-content-between">
+        <h3 class="col text-start">Total:</h3>
+        @if (TotalValue == 8)
+        {
+            <span class="col h3 text-end text-success">@TotalValue</span>
+        }
+
+        else if (TotalValue > 8)
+        {
+            <span class="col h3 text-end text-danger">@TotalValue</span>
+        }
+
+        else
+        {
+            <span class="col h3 text-end">@TotalValue</span>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public decimal TotalValue { get; set; }
+}
+
