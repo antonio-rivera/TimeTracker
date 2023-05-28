@@ -9,12 +9,16 @@
             <h2>Work Items</h2>
             <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" OnUpdateProjectTime="@UpdateProjectTime" OnUpdateProjectName="UpdateProjectName" />
             <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
+            <hr class="mb-1" />
+            <Total TotalValue="@TotalTimeItems" />
         </div>
 
         <div class="col card text-center">
             <h2>Timecard</h2>
             <TimeCard Projects="Projects" WorkItems="@WorkItems" OnDeleteProject="@DeleteProject" GetTime="@UpdateProjectTime" />
             <button @onclick="AddProject" class="btn btn-success mx-auto w-25 mb-3">Add</button>
+            <hr class="mb-1" />
+            <Total TotalValue="@TotalTimeProjects" />
         </div>
     </div>
 </div>
@@ -26,13 +30,21 @@
     public decimal TotalTimeItems = 0;
     public decimal TotalTimeProjects = 0;
 
-    protected override void OnAfterRender(bool firstRender)
+    public void SumTotals(IList<WorkItem> items, IList<Project> projects)
     {
-        if (WorkItems.Count > 0 && Projects.Count > 0)
+        TotalTimeProjects = projects.Sum(project => project.Time);
+        TotalTimeItems = items.Sum(item => item.Project.Time);
+
+        if (items.Count == 0)
         {
-            TotalTimeItems = WorkItems.Sum(item => item.Project.Time);
-            TotalTimeProjects = Projects.Sum(project => project.Time);
+            TotalTimeItems = 0;
         }
+
+        if (projects.Count == 0)
+        {
+            TotalTimeProjects = 0;
+        }
+
     }
 
     public void AddItem()
@@ -54,6 +66,7 @@
         if (delIndex >= 0)
         {
             WorkItems.RemoveAt(delIndex);
+            SumTotals(WorkItems, Projects);
             return true;
         }
 
@@ -67,6 +80,7 @@
         if (delIndex >= 0)
         {
             Projects.RemoveAt(delIndex);
+            SumTotals(WorkItems, Projects);
             return true;
         }
 
@@ -87,9 +101,12 @@
                 var itemsUnderThisProject = WorkItems.Where(item => item.Project.Name == projectName);
                 decimal totalTime = itemsUnderThisProject.Sum(item => item.Project.Time);
                 Projects[ProjectToUpdateIdx].Time = totalTime;
+
             }
 
         }
+
+        SumTotals(WorkItems, Projects);
 
     }
 
