@@ -24,10 +24,14 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\sample-data\" />
+    <Content Remove="wwwroot\css\local\" />
+    <Content Remove="wwwroot\css\local\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\sample-data\" />
     <Folder Include="Models\" />
+    <Folder Include="wwwroot\css\local\" />
+    <Folder Include="wwwroot\css\local\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
