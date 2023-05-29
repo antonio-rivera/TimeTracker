@@ -8,3 +8,9 @@
 #time-cell {
     font-size: 22pt;
 }
+
+.btn {
+    background: #ffc9d6;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
