@@ -31,7 +31,7 @@
                             </select>
                         }
                     </td>
-                    <td>@project.Time</td>
+                    <td id="time-cell">@project.Time</td>
                     <td><button @onclick="@(async () => await OnDeleteProject.InvokeAsync(project.Id))" class="btn btn-danger">Delete</button></td>
                 </tr>
             }
