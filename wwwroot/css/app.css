@@ -3,7 +3,6 @@
 
 html, body {
     font-family: 'Lora', serif;
-    font-size: 15pt;
     background: #C9D6FF; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -104,3 +103,32 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+
+@media screen and (min-width: 486px) {
+    html {
+        font-size: 1.4rem;
+    }
+}
+
+@media screen and (max-width: 486px) {
+    table {
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (max-width: 441px) {
+    table {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #timecard {
+        margin-top: 50px;
+    }
+}

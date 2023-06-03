@@ -2,10 +2,10 @@
 @page "/"
 
 
-<div class="container-fluid">
+<div class="mt-4 container-fluid">
     <div class="row">
 
-        <div class="col card text-center">
+        <div class="col-md text-center">
             <h2>Work Items</h2>
             <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" OnUpdateProjectTime="@UpdateProjectTime" OnUpdateProjectName="UpdateProjectName" />
             <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
@@ -13,7 +13,7 @@
             <Total TotalValue="@TotalTimeItems" />
         </div>
 
-        <div class="col card text-center">
+        <div id="timecard" class="col-md text-center">
             <h2>Timecard</h2>
             <TimeCard Projects="Projects" WorkItems="@WorkItems" OnDeleteProject="@DeleteProject" GetTime="@UpdateProjectTime" />
             <button @onclick="AddProject" class="btn btn-success mx-auto w-25 mb-3">Add</button>

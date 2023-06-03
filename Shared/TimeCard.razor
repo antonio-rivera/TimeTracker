@@ -1,43 +1,46 @@
 ﻿@using TimeTracker.Models
 @using System.Diagnostics.CodeAnalysis
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th class="w-50">Project</th>
-            <th class="w-50">Time</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Projects is not null)
-        {
-            @foreach (var project in Projects)
+<div class="table-responsive">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="w-50">Project</th>
+                <th class="w-50">Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Projects is not null)
             {
-                <tr>
-                    <td>
-                        @if (WorkItems != default)
-                        {
-                            <select value=@project.Name @onchange="(e => SelectProject(e, project))" class="form-select">
-                                <option selected>None</option>
-                                @foreach (var item in WorkItems.DistinctBy(item => item.Project.Name))
-                                {
-                                    @if (!string.IsNullOrEmpty(item.Project.Name))
+                @foreach (var project in Projects)
+                {
+                    <tr>
+                        <td>
+                            @if (WorkItems != default)
+                            {
+                                <select value=@project.Name @onchange="(e => SelectProject(e, project))" class="form-select">
+                                    <option selected>None</option>
+                                    @foreach (var item in WorkItems.DistinctBy(item => item.Project.Name))
                                     {
+                                        @if (!string.IsNullOrEmpty(item.Project.Name))
+                                        {
 
-                                        <option>@item.Project.Name</option>
+                                            <option>@item.Project.Name</option>
+                                        }
                                     }
-                                }
 
-                            </select>
-                        }
-                    </td>
-                    <td id="time-cell">@project.Time</td>
-                    <td><button @onclick="@(async () => await OnDeleteProject.InvokeAsync(project.Id))" class="btn btn-danger">Delete</button></td>
-                </tr>
+                                </select>
+                            }
+                        </td>
+                        <td id="time-cell">@project.Time</td>
+                        <td><button @onclick="@(async () => await OnDeleteProject.InvokeAsync(project.Id))" class="btn btn-danger">Delete</button></td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 
 

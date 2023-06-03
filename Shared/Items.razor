@@ -1,29 +1,32 @@
 ﻿@using TimeTracker.Models
 @using System.Diagnostics.CodeAnalysis
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th class="w-25">Name</th>
-            <th class="w-25">Project</th>
-            <th class="w-25">Time</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (WorkItems is not null)
-        {
-            @foreach (var item in WorkItems)
+<div class="table-responsive">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Project</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (WorkItems is not null)
             {
-                <tr class="align-middle">
-                    <td><textarea class="form-control text-center" @bind="@item.Name" /></td>
-                    <td><textarea @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" class="form-control text-center" /></td>
-                    <td><input @bind="@item.Project.Time" @oninput="(e) => UpdateTime(e, item)" class="form-control text-center" type="number" min="0" /></td>
-                    <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
-                </tr>
+                @foreach (var item in WorkItems)
+                {
+                    <tr class="align-middle">
+                        <td><textarea class="form-control text-center" @bind="@item.Name" /></td>
+                        <td><textarea @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" class="form-control text-center" /></td>
+                        <td><input @bind="@item.Project.Time" @oninput="(e) => UpdateTime(e, item)" class="form-control text-center" type="number" min="0" /></td>
+                        <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 
 

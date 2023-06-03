@@ -1,4 +1,6 @@
 ﻿select {
+    text-align: center;
+    padding: 7.5px 5px 7.5px;
     border: 1px solid gray;
     background: #C9D6FF; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF); /* Chrome 10-25, Safari 5.1-6 */
