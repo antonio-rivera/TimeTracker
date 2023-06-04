@@ -17,8 +17,8 @@
                 @foreach (var item in WorkItems)
                 {
                     <tr class="align-middle">
-                        <td><textarea class="form-control text-center" @bind="@item.Name" /></td>
-                        <td><textarea @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" class="form-control text-center" /></td>
+                        <td><textarea @oninput="(e) => SetNameWidth(e)" style="width: @nameWidth" class="form-control text-center" @bind="@item.Name" /></td>
+                        <td><textarea style="width: @projectWidth" @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" class="form-control text-center" /></td>
                         <td><input @bind="@item.Project.Time" @oninput="(e) => UpdateTime(e, item)" class="form-control text-center" type="number" min="0" /></td>
                         <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
                     </tr>
@@ -44,11 +44,15 @@
     [Parameter]
     public EventCallback OnUpdateProjectName { get; set; }
 
+    public string nameWidth = "71.6px";
+    public string projectWidth = "71.6px";
+
     void UpdateName(ChangeEventArgs e, WorkItem item)
     {
         if (!string.IsNullOrEmpty((string?)e.Value))
         {
             item.Project.Name = (string)e.Value;
+
             OnUpdateProjectName.InvokeAsync();
 
         }
@@ -63,6 +67,17 @@
             OnUpdateProjectTime.InvokeAsync(item.Project);
 
         }
+    }
+
+    void SetNameWidth(ChangeEventArgs e)
+    {
+        if ((!string.IsNullOrEmpty((string?)e.Value)))
+        {
+            int x = ((string)e.Value).Length;
+            double newWidth = 35 * Math.Sqrt(x) + 30;
+            nameWidth = newWidth.ToString() + "px";
+        }
+
     }
 
 }
