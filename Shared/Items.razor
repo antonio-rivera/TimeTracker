@@ -1,6 +1,7 @@
 ﻿@using TimeTracker.Models
 @using System.Diagnostics.CodeAnalysis
 @using System.Text.RegularExpressions
+@inject IUIActions uiActions
 
 <div class="table-responsive">
 
@@ -18,8 +19,8 @@
                 @foreach (var item in WorkItems)
                 {
                     <tr class="align-middle">
-                        <td><textarea @oninput="(e) => ExpandTextArea(e, SetNameWidth, SetNameHeight)" style="width: @nameWidth; height: @nameHeight;" class="form-control text-center" @bind="@item.Name" /></td>
-                        <td><textarea style="width: @projectWidth" @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" class="form-control text-center" /></td>
+                        <td><textarea @oninput="(e) => uiActions.SetHeight(e, ref nameHeight)" style="height: @nameHeight;" class="form-control text-center" @bind="@item.Name" /></td>
+                        <td><textarea @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" class="form-control text-center" /></td>
                         <td><input @bind="@item.Project.Time" @oninput="(e) => UpdateTime(e, item)" class="form-control text-center" type="number" min="0" /></td>
                         <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
                     </tr>
@@ -44,7 +45,7 @@
     [Parameter]
     public EventCallback OnUpdateProjectName { get; set; }
 
-    public string nameWidth = "71.6px";
+    public string nameWidth = "120.6px";
     public string nameHeight = "52.4px";
     public string projectWidth = "71.6px";
 
@@ -68,36 +69,5 @@
         }
     }
 
-    void ExpandTextArea(ChangeEventArgs e, Action<string> expandWidth, Action<string> expandHeight)
-    {
-        if ((!string.IsNullOrEmpty((string?)e.Value)))
-        {
-            string text = (string?)e.Value!;
-            expandWidth.Invoke(text);
-            expandHeight.Invoke(text);
-
-        }
-    }
-
-    void SetNameWidth(string textValue)
-    {
-        int x = textValue.Length;
-        double newWidth = 35 * Math.Sqrt(x) + 30;
-        nameWidth = newWidth.ToString() + "px";
-
-    }
-
-    void SetNameHeight(string textValue)
-    {
-        Regex newLines = new Regex(@"\n");
-        MatchCollection lineMatches = newLines.Matches(textValue);
-        int matchesCount = lineMatches.Count;
-
-        if (matchesCount > 0)
-        {
-            double newHeight = 52.4 + (matchesCount * 10);
-            nameHeight = newHeight.ToString() + "px";
-        }
-    }
 
 }

@@ -30,8 +30,10 @@
     <Folder Include="Models\" />
     <Folder Include="wwwroot\css\local\" />
     <Folder Include="wwwroot\css\local\fonts\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
+    <None Remove="Services\" />
   </ItemGroup>
 </Project>
