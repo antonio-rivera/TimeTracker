@@ -6,6 +6,8 @@ namespace TimeTracker.Services.UIActions
 {
     public partial class UIActions : IUIActions
     {
+        public string? InitialHeight { get; set; }
+        public string InitialWidth { get; set; }
 
 
         public void ExpandTextArea(ChangeEventArgs e, ref string width, ref string height)
@@ -16,6 +18,7 @@ namespace TimeTracker.Services.UIActions
 
         public void SetHeight(ChangeEventArgs e, ref string height)
         {
+            InitialHeight = height;
             if (!string.IsNullOrEmpty((string?)e.Value))
             {
                 string textValue = (string?)e.Value!;
@@ -27,6 +30,11 @@ namespace TimeTracker.Services.UIActions
                 {
                     double newHeight = 52.4 + matchesCount * 50;
                     height = newHeight.ToString() + "px";
+                }
+
+                else if (matchesCount == 0)
+                {
+                    height = string.IsNullOrEmpty(InitialHeight) ? "10px" : InitialHeight;
                 }
             }
         }

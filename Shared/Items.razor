@@ -20,7 +20,7 @@
                 {
                     <tr class="align-middle">
                         <td><textarea @oninput="(e) => uiActions.SetHeight(e, ref nameHeight)" style="height: @nameHeight;" class="form-control text-center" @bind="@item.Name" /></td>
-                        <td><textarea @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" class="form-control text-center" /></td>
+                        <td><textarea @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" style="height: @projectHeight" class="form-control text-center" /></td>
                         <td><input @bind="@item.Project.Time" @oninput="(e) => UpdateTime(e, item)" class="form-control text-center" type="number" min="0" /></td>
                         <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
                     </tr>
@@ -45,15 +45,15 @@
     [Parameter]
     public EventCallback OnUpdateProjectName { get; set; }
 
-    public string nameWidth = "120.6px";
     public string nameHeight = "52.4px";
-    public string projectWidth = "71.6px";
+    public string projectHeight = "52.4px";
 
     void UpdateName(ChangeEventArgs e, WorkItem item)
     {
         if (!string.IsNullOrEmpty((string?)e.Value))
         {
             item.Project.Name = (string)e.Value;
+            uiActions.SetHeight(e, ref projectHeight);
             OnUpdateProjectName.InvokeAsync();
         }
 
