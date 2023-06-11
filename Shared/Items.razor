@@ -21,7 +21,7 @@
                     <tr class="align-middle">
                         <td><textarea @oninput="(e) => uiActions.SetHeight(e, ref nameHeight)" style="height: @nameHeight;" class="form-control text-center" @bind="@item.Name" /></td>
                         <td><textarea @bind="@item.Project.Name" @oninput="(e) => UpdateName(e, item)" style="height: @projectHeight" class="form-control text-center" /></td>
-                        <td><input @bind="@item.Project.Time" @oninput="(e) => UpdateTime(e, item)" class="form-control text-center" type="number" min="0" /></td>
+                        <td><input @bind="item.Project.TimeRep" @oninput="(e) => UpdateTime(e, item)" class="form-control text-center" /></td>
                         <td><button @onclick="@(async () => await OnDeleteItem.InvokeAsync(item.Id))" class="btn btn-danger">Delete</button></td>
                     </tr>
                 }
@@ -45,6 +45,7 @@
     [Parameter]
     public EventCallback OnUpdateProjectName { get; set; }
 
+
     public string nameHeight = "52.4px";
     public string projectHeight = "52.4px";
 
@@ -63,7 +64,8 @@
     {
         if (!string.IsNullOrEmpty((string?)e.Value))
         {
-            item.Project.Time = Decimal.Parse((string)e.Value);
+            string inputNumber = (string?)e.Value == "." ? "0" : Regex.Replace((string)e.Value, @"[^.\d]", "0");
+            item.Project.Time = Decimal.Parse(inputNumber);
             OnUpdateProjectTime.InvokeAsync(item.Project);
 
         }

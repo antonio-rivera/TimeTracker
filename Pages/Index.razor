@@ -9,16 +9,20 @@
             <h2>Work Items</h2>
             <Items WorkItems="WorkItems" OnDeleteItem="@DeleteItem" OnUpdateProjectTime="@UpdateProjectTime" OnUpdateProjectName="UpdateProjectName" />
             <button @onclick="AddItem" class="btn btn-success mx-auto w-25 mb-3">Add</button>
+            <button @onclick="ConvertTime" class="btn btn-primary mx-auto w-25 mb-3">Convert Time</button>
             <hr class="mb-1" />
-            <Total TotalValue="@TotalTimeItems" />
+            <Total TotalValue="@TotalTimeItems" TotalDisplayValue="@TotalDisplayItems" />
         </div>
 
         <div id="timecard" class="col-md text-center">
             <h2>Timecard</h2>
+
             <TimeCard Projects="Projects" WorkItems="@WorkItems" OnDeleteProject="@DeleteProject" GetTime="@UpdateProjectTime" />
             <button @onclick="AddProject" class="btn btn-success mx-auto w-25 mb-3">Add</button>
+            @*<button  class="btn btn-primary mx-auto w-25 mb-3 ml-4">Convert Time</button>*@
+
             <hr class="mb-1" />
-            <Total TotalValue="@TotalTimeProjects" />
+            <Total TotalValue="@TotalTimeProjects" TotalDisplayValue="@TotalDisplayProjects" />
         </div>
     </div>
 </div>
@@ -29,6 +33,8 @@
     public List<Project> Projects = new List<Project>();
     public decimal TotalTimeItems = 0;
     public decimal TotalTimeProjects = 0;
+    public string TotalDisplayItems = "0";
+    public string TotalDisplayProjects = "0";
 
     public void SumTotals(IList<WorkItem> items, IList<Project> projects)
     {
@@ -44,6 +50,9 @@
         {
             TotalTimeProjects = 0;
         }
+
+        TotalDisplayItems = TotalTimeItems.ToString();
+        TotalDisplayProjects = TotalTimeProjects.ToString();
 
     }
 
@@ -114,6 +123,19 @@
     {
         //This method just signals the parent to refresh
         //When parent refreshes, TimeCard component refreshes and dropdown items become visible.
+
+    }
+
+    public void ConvertTime()
+    {
+        foreach (var item in WorkItems)
+        {
+            TimeSpan value = TimeSpan.FromHours((double)item.Project.Time);
+            TimeSpan Totalvalue = TimeSpan.FromHours((double)TotalTimeItems);
+            TotalDisplayItems = Totalvalue.ToString("h'h 'm'm '");
+            item.Project.TimeRep = value.ToString("h'h 'm'm '");
+
+        }
 
     }
 
